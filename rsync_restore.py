@@ -1241,6 +1241,11 @@ def run_restore(
     if not skip_farm:
         print_header("Symlink Farm")
         
+        # If force_rebuild, always purge and rebuild
+        if force_rebuild and os.path.exists(farm):
+            print_info("Force rebuild requested - purging existing farm...")
+            shutil.rmtree(farm)
+        
         if os.path.isdir(farm) and os.listdir(farm):
             farm_files, _ = count_files_in_dir(farm)
             print_info(f"Existing farm found with {format_number(farm_files)} symlinks")
@@ -1250,16 +1255,12 @@ def run_restore(
                 expected = preflight['db_stats']['total_files']
                 if farm_files < expected * 0.9:
                     print_warning(f"Farm may be incomplete (expected ~{format_number(expected)})")
-                    if force_rebuild:
-                        response = 'y'
-                        print_info("Auto-rebuilding farm (--force-rebuild)")
-                    else:
-                        try:
-                            response = input("Rebuild farm? [y/N]: ").strip().lower()
-                        except (EOFError, OSError):
-                            # Running with nohup or no stdin - skip rebuild
-                            print_warning("No stdin available, skipping rebuild. Use --force-rebuild for non-interactive mode.")
-                            response = 'n'
+                    try:
+                        response = input("Rebuild farm? [y/N]: ").strip().lower()
+                    except (EOFError, OSError):
+                        # Running with nohup or no stdin - skip rebuild
+                        print_warning("No stdin available, skipping rebuild. Use --force-rebuild for non-interactive mode.")
+                        response = 'n'
                     if response == 'y':
                         print_info("Removing old farm...")
                         shutil.rmtree(farm)
