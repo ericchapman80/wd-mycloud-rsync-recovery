@@ -1217,7 +1217,8 @@ def run_restore(
     log_file: str = "rsync_restore.log",
     sanitize_pipes: bool = False,
     skip_farm: bool = False,
-    limit: int = 0
+    limit: int = 0,
+    force_rebuild: bool = False
 ) -> int:
     """
     Run the full restore process.
@@ -1249,7 +1250,16 @@ def run_restore(
                 expected = preflight['db_stats']['total_files']
                 if farm_files < expected * 0.9:
                     print_warning(f"Farm may be incomplete (expected ~{format_number(expected)})")
-                    response = input("Rebuild farm? [y/N]: ").strip().lower()
+                    if force_rebuild:
+                        response = 'y'
+                        print_info("Auto-rebuilding farm (--force-rebuild)")
+                    else:
+                        try:
+                            response = input("Rebuild farm? [y/N]: ").strip().lower()
+                        except (EOFError, OSError):
+                            # Running with nohup or no stdin - skip rebuild
+                            print_warning("No stdin available, skipping rebuild. Use --force-rebuild for non-interactive mode.")
+                            response = 'n'
                     if response == 'y':
                         print_info("Removing old farm...")
                         shutil.rmtree(farm)
@@ -1543,6 +1553,8 @@ Cleanup Examples:
                        help='Replace | with - in paths')
     parser.add_argument('--skip-farm', action='store_true',
                        help='Skip symlink farm creation (use existing)')
+    parser.add_argument('--force-rebuild', action='store_true',
+                       help='Force rebuild of symlink farm without prompting (for non-interactive/nohup use)')
     parser.add_argument('--limit', type=int, default=0,
                        help='Process only first N files (for testing). 0 = no limit (default)')
     
@@ -1613,7 +1625,8 @@ Cleanup Examples:
         log_file=args.log_file,
         sanitize_pipes=args.sanitize_pipes,
         skip_farm=args.skip_farm,
-        limit=args.limit
+        limit=args.limit,
+        force_rebuild=args.force_rebuild
     )
 
 
