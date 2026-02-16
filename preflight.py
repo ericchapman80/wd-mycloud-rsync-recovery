@@ -249,3 +249,24 @@ def print_preflight_report(summary, source, dest):
     print(f"\n📝 {cmd}\n")
     print("Copy and paste the above command, replacing <...> with your actual file paths!")
     print("\nQuestions? See the README or /docs for help. Happy transferring! 🚚✨\n")
+
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) < 3:
+        print("Usage: python preflight.py <source_path> <dest_path>")
+        print("Example: python preflight.py /mnt/backupdrive/restsdk/data/files /mnt/nfs-media")
+        sys.exit(1)
+    
+    source = sys.argv[1]
+    dest = sys.argv[2]
+    
+    if not os.path.exists(source):
+        print(f"Error: Source path does not exist: {source}")
+        sys.exit(1)
+    if not os.path.exists(dest):
+        print(f"Error: Destination path does not exist: {dest}")
+        sys.exit(1)
+    
+    summary = run_preflight(source, dest)
+    print_preflight_report(summary, source, dest)
