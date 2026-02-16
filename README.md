@@ -15,6 +15,7 @@ Modern rsync-based recovery toolkit for Western Digital MyCloud NAS devices. Use
 If this tool saved your data, consider supporting continued development:
 
 - **GitHub Sponsors:** [Sponsor @ericchapman80](https://github.com/sponsors/ericchapman80)
+- **Buy Me a Coffee:** [buymeacoffee.com/ericchapman80](https://buymeacoffee.com/ericchapman80)
 
 ---
 
@@ -239,9 +240,8 @@ SELECT id, name, contentID FROM Files LIMIT 10;
 SELECT COUNT(*) FROM Files;
 ```
 
-## Support & Contributing
+## Contributing
 
-- **GitHub Sponsors:** [Sponsor @ericchapman80](https://github.com/sponsors/ericchapman80)
 - **Issues:** Report bugs or request features via GitHub issues
 - **Pull Requests:** Contributions welcome!
 - **SDK Alternative:** [wd-mycloud-python-recovery](https://github.com/ericchapman80/wd-mycloud-python-recovery)
