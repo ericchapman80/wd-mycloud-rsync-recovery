@@ -2,10 +2,11 @@
 Tests for preflight.py module
 
 Tests system information gathering, file statistics,
-and recommendation functions.
+recommendation functions, and CLI entry point.
 """
 import os
 import sys
+import subprocess
 from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 
@@ -462,6 +463,63 @@ class TestPipeFilesystemDetection:
         
         for fs in native_fs:
             assert fs.lower() not in preflight.PIPE_FS_TAGS
+
+
+class TestCLIEntryPoint:
+    """Test CLI entry point for preflight.py"""
+    
+    def test_cli_shows_usage_without_args(self):
+        """Test that CLI shows usage when no arguments provided"""
+        result = subprocess.run(
+            [sys.executable, 'preflight.py'],
+            capture_output=True,
+            text=True,
+            cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        )
+        assert result.returncode == 1
+        assert 'Usage:' in result.stdout or 'usage:' in result.stdout.lower()
+    
+    def test_cli_shows_error_for_nonexistent_source(self, tmp_path):
+        """Test that CLI shows error for nonexistent source path"""
+        result = subprocess.run(
+            [sys.executable, 'preflight.py', '/nonexistent/source', str(tmp_path)],
+            capture_output=True,
+            text=True,
+            cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        )
+        assert result.returncode == 1
+        assert 'Error' in result.stdout or 'error' in result.stdout.lower()
+    
+    def test_cli_shows_error_for_nonexistent_dest(self, tmp_path):
+        """Test that CLI shows error for nonexistent destination path"""
+        result = subprocess.run(
+            [sys.executable, 'preflight.py', str(tmp_path), '/nonexistent/dest'],
+            capture_output=True,
+            text=True,
+            cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        )
+        assert result.returncode == 1
+        assert 'Error' in result.stdout or 'error' in result.stdout.lower()
+    
+    def test_cli_runs_successfully_with_valid_paths(self, tmp_path):
+        """Test that CLI runs successfully with valid paths"""
+        source = tmp_path / "source"
+        dest = tmp_path / "dest"
+        source.mkdir()
+        dest.mkdir()
+        
+        # Create a test file
+        (source / "test.txt").write_text("test content")
+        
+        result = subprocess.run(
+            [sys.executable, 'preflight.py', str(source), str(dest)],
+            capture_output=True,
+            text=True,
+            cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            timeout=60
+        )
+        assert result.returncode == 0
+        assert 'Pre-flight' in result.stdout or 'CPU' in result.stdout
 
 
 class TestErrorHandling:

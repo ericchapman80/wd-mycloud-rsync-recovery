@@ -1,0 +1,25 @@
+repos:
+  - repo: local
+    hooks:
+      - id: pytest-check
+        name: pytest-check
+        entry: poetry run pytest tests/ -x -q --tb=short
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit]
+
+      - id: syntax-check
+        name: syntax-check
+        entry: poetry run python -m py_compile
+        language: system
+        types: [python]
+        stages: [commit]
+
+      - id: pytest-full
+        name: pytest-full
+        entry: poetry run pytest tests/ -v --cov=. --cov-fail-under=60
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [push]
