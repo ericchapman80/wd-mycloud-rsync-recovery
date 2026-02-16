@@ -4,7 +4,7 @@ Modern rsync-based recovery toolkit for Western Digital MyCloud NAS devices. Use
 
 > **🚀 Recommended approach** for MyCloud recovery. Simpler, faster, and more reliable than SDK-based methods.
 
-> **⚠️ Platform Support:** macOS and Linux only. **Windows is not supported** (requires WSL2).
+> **⚠️ Platform Support:** macOS and Linux. Windows has **limited support via WSL2** only (see [Installation Guide](docs/INSTALLATION.md)).
 
 > **⚠️ Disclaimer:** This software is provided "as is" without warranty of any kind. The authors are not responsible for any data loss, corruption, or other issues that may occur. **Always maintain backups of your original data before attempting recovery.** Use at your own risk.
 
