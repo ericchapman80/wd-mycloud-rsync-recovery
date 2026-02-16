@@ -148,6 +148,7 @@ poetry run pytest tests/test_cleanup_integration.py -v    # Cleanup workflows
 
 ## Documentation
 
+- **Installation Guide:** [docs/INSTALLATION.md](docs/INSTALLATION.md) - macOS, Linux, Windows (WSL)
 - **Full Usage Guide:** [docs/USAGE_GUIDE.md](docs/USAGE_GUIDE.md) - Complete step-by-step recovery guide
 - **Database Schema:** [docs/DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md) - SQLite schema reference
 - **Legacy Python Tool:** [wd-mycloud-python-recovery](https://github.com/ericchapman80/wd-mycloud-python-recovery)
