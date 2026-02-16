@@ -2,6 +2,9 @@
 
 Complete guide to recovering files from a failed WD MyCloud device using the symlink farm approach.
 
+> **Note:** All commands assume you've activated the Poetry environment with `poetry shell`.
+> Alternatively, prefix commands with `poetry run` (e.g., `poetry run python rsync_restore.py ...`).
+
 ## Overview
 
 When a WD MyCloud device fails, your data is stored on the internal drive in a non-obvious format:
