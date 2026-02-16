@@ -268,5 +268,5 @@ if __name__ == "__main__":
         print(f"Error: Destination path does not exist: {dest}")
         sys.exit(1)
     
-    summary = run_preflight(source, dest)
+    summary = preflight_summary(source, dest)
     print_preflight_report(summary, source, dest)
