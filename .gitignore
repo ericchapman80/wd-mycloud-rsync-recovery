@@ -38,6 +38,7 @@ poetry.lock
 # IDE
 .vscode/
 .idea/
+.windsurf/
 *.swp
 *.swo
 *~
@@ -58,3 +59,6 @@ symlink_farm/
 
 # Cleanup config
 cleanup_config.yaml
+
+# Personal data files (contains sample data with PII)
+sql-data.info

@@ -72,6 +72,15 @@ fi
 # Export for current session
 export PYTHONIOENCODING=utf-8
 
+# Install git hooks for pre-commit/pre-push testing
+echo ""
+echo "🔧 Installing git hooks..."
+if [ -d ".git" ]; then
+    ./scripts/install-hooks.sh
+else
+    echo "   ⏭️  Not a git repository, skipping hooks installation"
+fi
+
 echo ""
 echo "🎉 Setup complete!"
 echo ""
@@ -81,5 +90,9 @@ echo ""
 echo "Or run commands directly with:"
 echo "  poetry run python rsync_restore.py --help"
 echo "  poetry run pytest tests/"
+echo ""
+echo "Git hooks installed:"
+echo "  - pre-commit: syntax check + quick tests"
+echo "  - pre-push: full test suite with coverage"
 echo ""
 echo "Tip: Use ./setup.sh --no-shell-config to skip shell modifications"
