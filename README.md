@@ -6,6 +6,14 @@ Modern rsync-based recovery toolkit for Western Digital MyCloud NAS devices. Use
 
 ---
 
+## ☕ Support This Project
+
+If this tool saved your data, consider supporting continued development:
+
+- **GitHub Sponsors:** [Sponsor @ericchapman80](https://github.com/sponsors/ericchapman80)
+
+---
+
 ## Why Rsync?
 
 - **Automatic timestamp preservation** - No separate mtime sync needed
@@ -140,7 +148,7 @@ poetry run pytest tests/test_cleanup_integration.py -v    # Cleanup workflows
 
 ## Documentation
 
-- **Database Schema:** [sql-data.info](sql-data.info)
+- **Database Schema:** [docs/DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md)
 - **Legacy Python Tool:** [wd-mycloud-python-recovery](https://github.com/ericchapman80/wd-mycloud-python-recovery)
 - **Symlink Farm Guide:** See repository docs
 
@@ -152,11 +160,85 @@ poetry run pytest tests/test_cleanup_integration.py -v    # Cleanup workflows
 - Integration tests ensure components work together
 - Regular updates and new features
 
+## Running Over SSH
+
+For long-running recoveries over SSH, use `tmux` or `screen` to prevent disconnection from killing your session:
+
+```bash
+# Start a detachable session
+tmux new -s recovery
+# or: screen -S recovery
+
+# Run your recovery inside the session
+poetry shell
+python rsync_restore.py --db index.db --source-root /source --dest-root /dest
+
+# Detach: Ctrl+B then D (tmux) or Ctrl+A then D (screen)
+# Reattach later:
+tmux attach -t recovery
+# or: screen -r recovery
+```
+
+## Monitoring
+
+The `monitor.sh` script tracks system health during long operations:
+
+```bash
+# Run in background
+nohup ./monitor.sh /path/to/monitor.log 30 > /dev/null 2>&1 &
+
+# Watch the log
+tail -f /path/to/monitor.log
+```
+
+**What it monitors:**
+- Script status (running/stopped)
+- NFS mount status (OK/stalled/unmounted)
+- Memory usage %
+- System load average
+- Open file descriptors
+- Disk I/O wait %
+
+## FAQ
+
+**Why do I see "File not found in database" errors?**
+
+Files may be missing from the database due to corruption or interrupted operations on the MyCloud device. These unmatched files are reported but don't affect the recovery of other files.
+
+**How is the database structured?**
+
+See [docs/DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md) for full schema documentation. Key points:
+- Main table is `Files`
+- `contentID` maps to on-disk filename (e.g., `a22236cwsmelmd4on2qs2jdf`)
+- `name` is the original human-readable filename
+- `parentID` builds the directory tree structure
+- Files are stored in sharded directories: `/files/a/a22236...`, `/files/b/b12345...`
+
+**How can I safely inspect the database?**
+
+```bash
+sqlite3 index.db
+```
+
+```sql
+-- Show tables
+.tables
+
+-- Show schema
+.schema Files
+
+-- Sample records
+SELECT id, name, contentID FROM Files LIMIT 10;
+
+-- Count files
+SELECT COUNT(*) FROM Files;
+```
+
 ## Support & Contributing
 
+- **GitHub Sponsors:** [Sponsor @ericchapman80](https://github.com/sponsors/ericchapman80)
 - **Issues:** Report bugs or request features via GitHub issues
 - **Pull Requests:** Contributions welcome!
-- **Discussions:** Use GitHub Discussions for questions
 - **SDK Alternative:** [wd-mycloud-python-recovery](https://github.com/ericchapman80/wd-mycloud-python-recovery)
 
 ## License
