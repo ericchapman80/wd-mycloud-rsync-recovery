@@ -148,9 +148,9 @@ poetry run pytest tests/test_cleanup_integration.py -v    # Cleanup workflows
 
 ## Documentation
 
-- **Database Schema:** [docs/DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md)
+- **Full Usage Guide:** [docs/USAGE_GUIDE.md](docs/USAGE_GUIDE.md) - Complete step-by-step recovery guide
+- **Database Schema:** [docs/DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md) - SQLite schema reference
 - **Legacy Python Tool:** [wd-mycloud-python-recovery](https://github.com/ericchapman80/wd-mycloud-python-recovery)
-- **Symlink Farm Guide:** See repository docs
 
 ## Development Status
 
