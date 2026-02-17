@@ -325,6 +325,64 @@ python rsync_restore.py --cleanup --config ./cleanup_rules.yaml
 
 ---
 
+## Monitoring Long-Running Operations
+
+The `monitor.sh` script tracks system health during long recovery operations. Run it in a separate terminal to catch issues early.
+
+### Usage
+
+```bash
+./monitor.sh [logfile] [interval] [nfs_mount] [tracking_db]
+```
+
+**Arguments:**
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `logfile` | `monitor.log` | Where to write monitoring output |
+| `interval` | `30` | Seconds between checks |
+| `nfs_mount` | `/mnt/nfs-media` | NFS mount point to monitor |
+| `tracking_db` | (none) | Optional: SQLite DB with `copied_files` table |
+
+### Examples
+
+```bash
+# Basic monitoring (30 second intervals)
+./monitor.sh
+
+# Custom log file and 60 second intervals
+./monitor.sh recovery_monitor.log 60
+
+# Monitor specific NFS mount
+./monitor.sh monitor.log 30 /mnt/my-nas
+
+# Run in background with nohup
+nohup ./monitor.sh monitor.log 30 /mnt/nfs-media > /dev/null 2>&1 &
+
+# Watch the log in real-time
+tail -f monitor.log
+```
+
+### What It Monitors
+
+| Metric | Description |
+|--------|-------------|
+| **Script status** | Is rsync/symlink/copy process running? |
+| **NFS mount** | OK, UNMOUNTED, or STALLED |
+| **Memory** | Usage % and MB used/total |
+| **Load average** | System load (1, 5, 15 min) |
+| **File descriptors** | Open FDs for Python processes |
+| **I/O wait** | Disk bottleneck indicator |
+| **Copied count** | Files copied (from DB or log) |
+
+### Alerts
+
+The script will warn you when:
+- NFS mount becomes stalled or unmounted
+- No copy process is running (may have crashed)
+- Memory usage exceeds 90%
+
+---
+
 ## Troubleshooting
 
 ### "Too many open files"
