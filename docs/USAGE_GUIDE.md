@@ -383,6 +383,122 @@ The script will warn you when:
 
 ---
 
+## Diagnostic Scripts
+
+When things don't work as expected, these scripts help diagnose issues.
+
+### Analyze Orphan Files
+
+The `analyze_orphans.py` script helps understand why files are flagged as orphans during cleanup scans.
+
+```bash
+# Show help
+python scripts/analyze_orphans.py -h
+
+# Analyze orphans in a specific folder
+python scripts/analyze_orphans.py \
+    --db /mnt/backupdrive/restsdk/data/db/index.db \
+    --dest /mnt/nfs-media/ \
+    --folder "OSxData"
+
+# Include source check to see if orphans exist in source
+python scripts/analyze_orphans.py \
+    --db /mnt/backupdrive/restsdk/data/db/index.db \
+    --dest /mnt/nfs-media/ \
+    --source /mnt/backupdrive/restsdk/data/files/ \
+    --folder "iOSBackup" \
+    --limit 50
+```
+
+**What it detects:**
+
+- Filename encoding issues (special characters, unicode problems)
+- Path mismatches (file exists but canonical path differs)
+- Files that exist in dest but not in source
+- Potential duplicates (same filename, different location)
+
+### Diagnose Path Reconstruction
+
+The `diagnose_paths.py` script compares canonical paths from the database against what actually exists in the source directory. This is critical for understanding why symlink farm creation might fail.
+
+```bash
+# Show help
+python scripts/diagnose_paths.py -h
+
+# Basic diagnosis
+python scripts/diagnose_paths.py \
+    --db /mnt/backupdrive/restsdk/data/db/index.db \
+    --source /mnt/backupdrive/restsdk/data/files/
+
+# With more samples
+python scripts/diagnose_paths.py \
+    --db /mnt/backupdrive/restsdk/data/db/index.db \
+    --source /mnt/backupdrive/restsdk/data/files/ \
+    --samples 200
+```
+
+**What it shows:**
+
+- How many canonical paths actually exist in source
+- Partial matches (path exists up to a certain point)
+- Path format differences between DB and filesystem
+- Recommendations for fixing path reconstruction issues
+
+---
+
+## Cleanup Configuration
+
+### Config File Location
+
+The cleanup rules are stored in `cleanup_rules.yaml` in your **current working directory** (where you run the command from). You can also specify a custom path:
+
+```bash
+# Use default location (./cleanup_rules.yaml)
+python rsync_restore.py --cleanup --db /path/to/index.db --dest /path/to/dest
+
+# Use custom config location
+python rsync_restore.py --cleanup --config /home/user/my-cleanup-rules.yaml \
+    --db /path/to/index.db --dest /path/to/dest
+```
+
+### Example Config for Your Setup
+
+Based on your dry run output, here's a recommended config:
+
+```yaml
+# cleanup_rules.yaml
+destination: /mnt/nfs-media/
+
+# Folders to NEVER delete from (manually added, not in MyCloud DB)
+protect:
+  - "DisneyCruise-2025/*"
+  - "TaxData/*"
+  - "1and1/*"
+  - "MasterServicesMaintenanceReports/*"
+  # Protect these until analyzed:
+  - "OSxData/*"
+  - "iOSBackup/*"
+  - "iPhone-Ash Camera Roll Backup/*"
+  - "Eric-iPhone11-ProMax Camera Roll Backup/*"
+  - "Eric-iPhone7-Plus Camera Roll Backup/*"
+
+# Folders to clean orphans from (safe to delete duplicates)
+cleanup:
+  - "#recycle/*"
+```
+
+Save this file, then run:
+
+```bash
+python rsync_restore.py --cleanup \
+    --db /mnt/backupdrive/restsdk/data/db/index.db \
+    --dest /mnt/nfs-media/ \
+    --config cleanup_rules.yaml \
+    --dry-run
+```
+
+---
+
 ## Troubleshooting
 
 ### "Too many open files"
