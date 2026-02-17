@@ -12,6 +12,8 @@ from unittest.mock import Mock, patch, MagicMock, call
 
 import pytest
 
+pytestmark = pytest.mark.integration
+
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

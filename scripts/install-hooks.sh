@@ -1,5 +1,10 @@
 #!/bin/bash
 # Install git hooks for pre-commit and pre-push testing
+#
+# Test organization:
+#   - pre-commit: syntax + unit tests only (fast, <2s)
+#   - pre-push: all unit tests (no integration, <30s)
+#   - CI: full suite including integration tests with coverage
 
 set -e
 
@@ -7,7 +12,7 @@ HOOKS_DIR=".git/hooks"
 
 echo "Installing git hooks..."
 
-# Pre-commit hook - quick syntax check and fast tests
+# Pre-commit hook - quick syntax check and fast unit tests
 cat > "$HOOKS_DIR/pre-commit" << 'EOF'
 #!/bin/bash
 echo "🔍 Running pre-commit checks..."
@@ -20,9 +25,9 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Run quick tests (fail fast) - stable unit tests
+# Run unit tests only (exclude integration tests)
 echo "Running quick tests..."
-poetry run pytest tests/test_path_reconstruction.py tests/test_preflight.py tests/test_database_integration.py -x -q --tb=short 2>/dev/null
+poetry run pytest -m "not integration" -x -q --tb=short 2>/dev/null
 if [ $? -ne 0 ]; then
     echo "❌ Tests failed. Commit aborted."
     exit 1
@@ -33,13 +38,13 @@ EOF
 
 chmod +x "$HOOKS_DIR/pre-commit"
 
-# Pre-push hook - full test suite with coverage
+# Pre-push hook - all unit tests (no integration)
 cat > "$HOOKS_DIR/pre-push" << 'EOF'
 #!/bin/bash
 echo "🔍 Running pre-push checks (full test suite)..."
 
-# Run stable unit tests (preflight, path reconstruction, database)
-poetry run pytest tests/test_path_reconstruction.py tests/test_preflight.py tests/test_database_integration.py -v
+# Run all unit tests (exclude integration tests for speed)
+poetry run pytest -m "not integration" -v --tb=short
 if [ $? -ne 0 ]; then
     echo "❌ Tests failed. Push aborted."
     exit 1
@@ -53,7 +58,9 @@ chmod +x "$HOOKS_DIR/pre-push"
 echo "✅ Git hooks installed successfully!"
 echo ""
 echo "Hooks installed:"
-echo "  - pre-commit: syntax check + quick tests"
-echo "  - pre-push: full test suite with 60% coverage requirement"
+echo "  - pre-commit: syntax check + unit tests (fast)"
+echo "  - pre-push: all unit tests (excludes integration)"
+echo ""
+echo "CI runs full suite including integration tests with coverage."
 echo ""
 echo "To skip hooks temporarily: git commit --no-verify"

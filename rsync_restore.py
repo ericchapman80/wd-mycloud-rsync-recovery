@@ -469,9 +469,15 @@ def delete_orphans(
 def run_cleanup_wizard(
     dest_dir: str,
     db_path: str,
-    config_path: str = 'cleanup_rules.yaml'
+    config_path: str = 'cleanup_rules.yaml',
+    non_interactive: bool = False
 ) -> int:
-    """Run interactive cleanup wizard."""
+    """Run interactive cleanup wizard.
+    
+    Args:
+        non_interactive: If True, skip folder classification prompts (scan only mode).
+                        Useful for running via nohup or in scripts.
+    """
     print_header("Cleanup Wizard")
     
     # Load existing config
@@ -508,7 +514,13 @@ def run_cleanup_wizard(
         print_success("No orphans found! Destination is clean.")
         return 0
     
-    # Interactive folder classification
+    # Interactive folder classification (skip if non-interactive)
+    if non_interactive:
+        print_info("Non-interactive mode: skipping folder classification.")
+        print_info("Run interactively to classify folders, or edit config file directly.")
+        print_info(f"Config file: {config_path}")
+        return 0
+    
     print_header("Classify Folders")
     
     for folder in folders_to_review:
@@ -532,7 +544,11 @@ def run_cleanup_wizard(
         print("  [P]rotect (never delete)  [C]leanup (delete orphans)  [S]kip for now")
         
         while True:
-            response = input(colorize("  Your choice: ", Colors.BOLD)).strip().upper()
+            try:
+                response = input(colorize("  Your choice: ", Colors.BOLD)).strip().upper()
+            except (EOFError, OSError):
+                print_warning("  No input available (running via nohup?). Skipping.")
+                break
             if response == 'P':
                 pattern = f"{folder}/*"
                 if pattern not in config['protect']:
@@ -1570,6 +1586,8 @@ Cleanup Examples:
                        help='Path to cleanup config file (default: cleanup_rules.yaml)')
     parser.add_argument('--yes', '-y', action='store_true',
                        help='Auto-confirm deletion (use with caution)')
+    parser.add_argument('--scan-only', action='store_true',
+                       help='Scan for orphans only, skip interactive prompts (for nohup/scripts)')
     
     args = parser.parse_args()
     
@@ -1586,7 +1604,7 @@ Cleanup Examples:
         # If wizard flag is also set, run cleanup wizard
         if not args.protect and not args.cleanup_folder and not os.path.exists(args.config):
             # No patterns specified and no config - run wizard
-            return run_cleanup_wizard(args.dest, args.db, args.config)
+            return run_cleanup_wizard(args.dest, args.db, args.config, non_interactive=args.scan_only)
         else:
             # Run CLI cleanup
             return run_cleanup_cli(
