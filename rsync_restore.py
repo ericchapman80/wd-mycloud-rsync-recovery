@@ -1200,7 +1200,7 @@ def create_symlink_farm_streaming(
     if skipped > 0:
         print_info(f"Skipped {format_number(skipped)} (no source or duplicate)")
     if errors > 0:
-        print_warning(f"Errors: {format_number(errors)}")
+        print_info(f"Source not found: {format_number(errors)} (already copied or missing - this is normal)")
     
     return created, skipped, errors
 
