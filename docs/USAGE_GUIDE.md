@@ -546,13 +546,78 @@ fuser /mnt/backupdrive/restsdk/data/db/index.db
 
 | Flag | Description |
 |------|-------------|
-| `-a` | Archive mode (preserves everything) |
+| `-a` | Archive mode (preserves permissions, timestamps, owner, group) |
 | `-v` | Verbose output |
 | `-n` | Dry-run (preview only) |
 | `-L` | Follow symlinks |
+| `-X` | Preserve extended attributes (xattrs) |
+| `-A` | Preserve ACLs (Access Control Lists) |
 | `--progress` | Show transfer progress |
 | `--checksum` | Verify with checksums (slower) |
 | `--exclude` | Skip matching files |
 | `--delete` | Remove extra files in destination |
 | `--ignore-existing` | Skip files that already exist at destination |
 | `--update` | Skip files that are newer at destination |
+
+---
+
+## Preserving Photo Metadata
+
+When recovering photos, you want to preserve all metadata including EXIF data (camera info, GPS location, date taken, etc.).
+
+### What rsync Preserves
+
+| Metadata Type | Flag | Notes |
+|---------------|------|-------|
+| **EXIF data** (camera, GPS, date taken) | None needed | Embedded in file, always preserved |
+| **File modification time** | `-a` | Included in archive mode |
+| **File permissions** | `-a` | Included in archive mode |
+| **Owner/Group** | `-a` | Included in archive mode (requires root) |
+| **Extended attributes** | `-X` | macOS tags, Windows alternate streams |
+| **ACLs** | `-A` | Fine-grained permissions |
+
+### Recommended Command for Photos
+
+```bash
+# Maximum metadata preservation
+rsync -avLXA --progress /tmp/restore-farm/ /mnt/nfs-media/
+
+# Or with the script (add -X and -A manually if needed)
+python rsync_restore.py \
+    --db /path/to/index.db \
+    --source-root /path/to/files \
+    --dest-root /path/to/dest \
+    --farm /tmp/restore-farm
+```
+
+### Extended Attributes (-X flag)
+
+Extended attributes store additional metadata beyond standard file permissions:
+
+- **macOS**: Finder tags, quarantine flags, resource forks
+- **Linux**: SELinux contexts, capabilities, user-defined attributes
+- **Windows**: Alternate data streams (when using Cygwin rsync)
+
+To check if a file has extended attributes:
+
+```bash
+# macOS
+xattr -l /path/to/file
+
+# Linux
+getfattr -d /path/to/file
+```
+
+### ACLs (-A flag)
+
+Access Control Lists provide fine-grained permissions beyond the standard owner/group/other model:
+
+```bash
+# View ACLs on Linux
+getfacl /path/to/file
+
+# View ACLs on macOS
+ls -le /path/to/file
+```
+
+**Note:** Both source and destination filesystems must support xattrs/ACLs for these to be preserved. NFS mounts may not support extended attributes depending on server configuration.
