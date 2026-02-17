@@ -1,0 +1,81 @@
+nohup: ignoring input
+
+============================================================
+  Pre-flight Checks
+============================================================
+
+✅ Source directory exists: /mnt/backupdrive/restsdk/data/files/
+ℹ️    Files: 3,583,981 | Size: 1.76 TB
+✅ Destination directory exists: /mnt/nfs-media/
+ℹ️    Files: 1,638,692 | Size: 1.92 TB
+ℹ️    Free space: 2.90 TB
+✅ Database found: /mnt/backupdrive/restsdk/data/db/index.db
+ℹ️    Total files in DB: 1,655,973
+ℹ️    Files to recover: 1,655,973
+✅ Symlink farm exists: /tmp/restore-farm
+ℹ️    Symlinks: 27
+✅ rsync found: /usr/bin/rsync
+ℹ️  Memory: 19.8% used (8.97 GB available)
+ℹ️  Load average: 1.37 1.29 1.26
+
+============================================================
+  Symlink Farm
+============================================================
+
+ℹ️  Force rebuild requested - purging existing farm...
+ℹ️  Creating symlink farm (streaming from database)...
+  Progress: 5% (82,799/1,655,973)
+  Progress: 10% (165,598/1,655,973)
+  Progress: 15% (248,396/1,655,973)
+  Progress: 20% (331,195/1,655,973)
+  Progress: 25% (413,994/1,655,973)
+  Progress: 30% (496,792/1,655,973)
+  Progress: 35% (579,591/1,655,973)
+  Progress: 40% (662,390/1,655,973)
+  Progress: 45% (745,188/1,655,973)
+  Progress: 50% (827,987/1,655,973)
+  Progress: 55% (910,786/1,655,973)
+  Progress: 60% (993,584/1,655,973)
+  Progress: 65% (1,076,383/1,655,973)
+  Progress: 70% (1,159,182/1,655,973)
+  Progress: 75% (1,241,980/1,655,973)
+  Progress: 80% (1,324,779/1,655,973)
+  Progress: 85% (1,407,578/1,655,973)
+  Progress: 90% (1,490,376/1,655,973)
+  Progress: 95% (1,573,175/1,655,973)
+  Progress: 100% (1,655,973/1,655,973)
+✅ Created 27 symlinks
+ℹ️  Skipped 1 (no source or duplicate)
+⚠️  Errors: 1,655,945
+
+============================================================
+  Starting rsync
+============================================================
+
+[2026-02-16 10:11:31] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 17.3% | Load: 1.16 1.18 1.21
+ℹ️  Running: rsync -avL --progress --checksum --dry-run /tmp/restore-farm/ /mnt/nfs-media/
+
+⚠️  rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1338) [sender=3.2.7]
+
+============================================================
+  Summary
+============================================================
+
+
+  Source:        3583981 files | 1.76 TB
+  Destination:   1638692 files | 1.92 TB
+
+  Started:       2026-02-16 09:17:48
+  Finished:      2026-02-16 10:56:59
+  Duration:      53m 57s
+
+  Files transferred: 0
+  Data transferred:  312.79 KB
+  Average speed:     98.00 B/s
+
+⚠️    Errors:            1
+
+  Error details:
+    - rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1338) [sender=3.2.7]
+
+ℹ️  Full log written to: rsync_restore.log
