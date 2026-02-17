@@ -20,9 +20,9 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Run quick tests (fail fast) - only stable unit tests
+# Run quick tests (fail fast) - stable unit tests
 echo "Running quick tests..."
-poetry run pytest tests/test_path_reconstruction.py tests/test_preflight.py::TestCLIEntryPoint -x -q --tb=short 2>/dev/null
+poetry run pytest tests/test_path_reconstruction.py tests/test_preflight.py tests/test_database_integration.py -x -q --tb=short 2>/dev/null
 if [ $? -ne 0 ]; then
     echo "❌ Tests failed. Commit aborted."
     exit 1
@@ -38,8 +38,8 @@ cat > "$HOOKS_DIR/pre-push" << 'EOF'
 #!/bin/bash
 echo "🔍 Running pre-push checks (full test suite)..."
 
-# Run stable unit tests only (skip integration tests that require specific environment)
-poetry run pytest tests/test_path_reconstruction.py tests/test_preflight.py::TestCLIEntryPoint -v
+# Run stable unit tests (preflight, path reconstruction, database)
+poetry run pytest tests/test_path_reconstruction.py tests/test_preflight.py tests/test_database_integration.py -v
 if [ $? -ne 0 ]; then
     echo "❌ Tests failed. Push aborted."
     exit 1
