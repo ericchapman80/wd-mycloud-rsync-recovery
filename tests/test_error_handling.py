@@ -145,8 +145,11 @@ class TestRsyncErrors:
         log_file = tmp_path / "test.log"
         monitor = rsync_restore.RsyncMonitor(str(log_file))
         
-        with pytest.raises(FileNotFoundError):
-            rsync_restore.run_rsync("/source/", "/dest/", monitor)
+        # run_rsync catches exceptions and returns error code
+        returncode, errors = rsync_restore.run_rsync("/source/", "/dest/", monitor)
+        
+        assert returncode != 0
+        assert len(errors) > 0
     
     @patch('subprocess.Popen')
     def test_rsync_nonzero_exit_code(self, mock_popen, tmp_path):
@@ -379,11 +382,11 @@ class TestRecoveryAndRetry:
         # First call fails, second succeeds
         mock_process_fail = MagicMock()
         mock_process_fail.stdout = ["rsync error: timeout\n"]
-        mock_process_fail.wait.return_value = 30  # Timeout error
+        mock_process_fail.returncode = 30  # Timeout error
         
         mock_process_success = MagicMock()
         mock_process_success.stdout = []
-        mock_process_success.wait.return_value = 0
+        mock_process_success.returncode = 0
         
         mock_popen.side_effect = [mock_process_fail, mock_process_success]
         
