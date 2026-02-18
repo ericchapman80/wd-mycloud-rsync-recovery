@@ -35,7 +35,8 @@ class TestSymlinkFarmBasics:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'test.txt', NULL, 'abc123')")
@@ -69,7 +70,8 @@ class TestSymlinkFarmBasics:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'file1.txt', NULL, 'aaa111')")
@@ -104,7 +106,8 @@ class TestSymlinkFarmBasics:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             # Only add file with valid contentID (directories are filtered by SQL)
@@ -138,7 +141,8 @@ class TestSymlinkFarmBasics:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'Photos', NULL, NULL)")
@@ -175,7 +179,8 @@ class TestSymlinkFarmPathReconstruction:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'root.txt', NULL, 'abc123')")
@@ -206,7 +211,8 @@ class TestSymlinkFarmPathReconstruction:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             # Create deep hierarchy: root/a/b/c/d/file.txt
@@ -242,7 +248,8 @@ class TestSymlinkFarmPathReconstruction:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'docs', NULL, NULL)")
@@ -281,7 +288,8 @@ class TestSymlinkFarmEdgeCases:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'missing.txt', NULL, 'xyz999')")
@@ -311,7 +319,8 @@ class TestSymlinkFarmEdgeCases:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'exists.txt', NULL, 'abc123')")
@@ -347,7 +356,8 @@ class TestSymlinkFarmEdgeCases:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             # File with spaces and special chars
@@ -379,7 +389,8 @@ class TestSymlinkFarmEdgeCases:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             for i in range(10):
@@ -413,7 +424,8 @@ class TestSymlinkFarmEdgeCases:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
         
@@ -444,7 +456,8 @@ class TestSymlinkFarmStatistics:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'file1.txt', NULL, 'aaa111')")
@@ -480,7 +493,8 @@ class TestSymlinkFarmStatistics:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'test.txt', NULL, 'abc123')")
@@ -518,7 +532,8 @@ class TestSymlinkFarmPerformance:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             # Create many files
@@ -551,7 +566,8 @@ class TestSymlinkFarmPerformance:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             # Create 10 levels deep
@@ -593,7 +609,8 @@ class TestSymlinkFarmSanitization:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'file|with|pipes.txt', NULL, 'abc123')")
@@ -625,7 +642,8 @@ class TestSymlinkFarmSanitization:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'file|with|pipes.txt', NULL, 'abc123')")

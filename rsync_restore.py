@@ -1111,8 +1111,13 @@ def create_symlink_farm_streaming(
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
         
-        # Get total count for progress
-        cur.execute("SELECT COUNT(*) FROM files WHERE contentID IS NOT NULL")
+        # Get total count for progress (files only, not directories)
+        cur.execute("""
+            SELECT COUNT(*) FROM Files 
+            WHERE contentID IS NOT NULL 
+            AND contentID != '' 
+            AND mimeType != 'application/x.wd.dir'
+        """)
         total = cur.fetchone()[0]
         
         # Find root dir to strip
@@ -1120,11 +1125,13 @@ def create_symlink_farm_streaming(
         row = cur.fetchone()
         root_dir = row['name'] if row else None
         
-        # Stream files and create symlinks
+        # Stream files and create symlinks (exclude directories and empty contentIDs)
         cur.execute("""
             SELECT id, name, parentID, contentID 
-            FROM files 
-            WHERE contentID IS NOT NULL
+            FROM Files 
+            WHERE contentID IS NOT NULL 
+            AND contentID != '' 
+            AND mimeType != 'application/x.wd.dir'
         """)
         
         # Build minimal parent lookup (just id -> name, parent)

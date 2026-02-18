@@ -40,11 +40,12 @@ class TestFarmToRsyncWorkflow:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             for i in range(5):
-                conn.execute(f"INSERT INTO Files VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
+                conn.execute(f"INSERT INTO Files (id, name, parentID, contentID) VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
         
         # Create source files
         for i in range(5):
@@ -99,11 +100,12 @@ class TestFarmToRsyncWorkflow:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             for i in range(10):
-                conn.execute(f"INSERT INTO Files VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
+                conn.execute(f"INSERT INTO Files (id, name, parentID, contentID) VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
         
         # Create only 5 source files (incomplete)
         for i in range(5):
@@ -155,11 +157,12 @@ class TestFarmToRsyncWorkflow:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             for i in range(3):
-                conn.execute(f"INSERT INTO Files VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
+                conn.execute(f"INSERT INTO Files (id, name, parentID, contentID) VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
         
         # Create initial source files
         for i in range(3):
@@ -186,7 +189,7 @@ class TestFarmToRsyncWorkflow:
         # Add more files to database
         with sqlite3.connect(str(db_path)) as conn:
             for i in range(3, 6):
-                conn.execute(f"INSERT INTO Files VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
+                conn.execute(f"INSERT INTO Files (id, name, parentID, contentID) VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
         
         # Create new source files
         for i in range(3, 6):
@@ -232,11 +235,12 @@ class TestFarmRsyncErrorRecovery:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
-            conn.execute("INSERT INTO Files VALUES (1, 'exists.txt', NULL, 'ex001')")
-            conn.execute("INSERT INTO Files VALUES (2, 'missing.txt', NULL, 'mis002')")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'exists.txt', NULL, 'ex001')")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (2, 'missing.txt', NULL, 'mis002')")
         
         # Create source for first file only
         file_dir = source / "ex" / "ex001"
@@ -286,11 +290,12 @@ class TestFarmRsyncErrorRecovery:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
-            conn.execute("INSERT INTO Files VALUES (1, 'include.txt', NULL, 'inc001')")
-            conn.execute("INSERT INTO Files VALUES (2, 'exclude.tmp', NULL, 'exc002')")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'include.txt', NULL, 'inc001')")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (2, 'exclude.tmp', NULL, 'exc002')")
         
         # Create source files
         for cid, name in [('inc001', 'include.txt'), ('exc002', 'exclude.tmp')]:
@@ -338,12 +343,13 @@ class TestFarmRsyncWithNestedStructures:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
-            conn.execute("INSERT INTO Files VALUES (1, 'Photos', NULL, NULL)")
-            conn.execute("INSERT INTO Files VALUES (2, '2023', 1, NULL)")
-            conn.execute("INSERT INTO Files VALUES (3, 'vacation.jpg', 2, 'vac001')")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'Photos', NULL, NULL)")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (2, '2023', 1, NULL)")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (3, 'vacation.jpg', 2, 'vac001')")
         
         # Create source file
         file_dir = source / "va" / "vac001"
@@ -382,13 +388,14 @@ class TestFarmRsyncWithNestedStructures:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
-            conn.execute("INSERT INTO Files VALUES (1, 'Documents', NULL, NULL)")
-            conn.execute("INSERT INTO Files VALUES (2, 'file1.pdf', 1, 'pdf001')")
-            conn.execute("INSERT INTO Files VALUES (3, 'file2.pdf', 1, 'pdf002')")
-            conn.execute("INSERT INTO Files VALUES (4, 'file3.pdf', 1, 'pdf003')")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'Documents', NULL, NULL)")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (2, 'file1.pdf', 1, 'pdf001')")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (3, 'file2.pdf', 1, 'pdf002')")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (4, 'file3.pdf', 1, 'pdf003')")
         
         # Create source files
         for i, cid in enumerate(['pdf001', 'pdf002', 'pdf003'], 1):
@@ -428,11 +435,12 @@ class TestFarmRsyncProgressMonitoring:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             for i in range(10):
-                conn.execute(f"INSERT INTO Files VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
+                conn.execute(f"INSERT INTO Files (id, name, parentID, contentID) VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
         
         # Create source files with varying sizes
         for i in range(10):
@@ -512,11 +520,12 @@ class TestFarmRsyncDryRun:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             for i in range(5):
-                conn.execute(f"INSERT INTO Files VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
+                conn.execute(f"INSERT INTO Files (id, name, parentID, contentID) VALUES ({i+1}, 'file{i}.txt', NULL, 'f{i:03d}')")
         
         # Create source files
         for i in range(5):
@@ -565,10 +574,11 @@ class TestFarmRsyncChecksums:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
-            conn.execute("INSERT INTO Files VALUES (1, 'data.bin', NULL, 'dat001')")
+            conn.execute("INSERT INTO Files (id, name, parentID, contentID) VALUES (1, 'data.bin', NULL, 'dat001')")
         
         # Create source file
         file_dir = source / "da" / "dat001"
@@ -615,11 +625,12 @@ class TestFarmRsyncLargeScale:
                     id INTEGER PRIMARY KEY,
                     name TEXT,
                     parentID INTEGER,
-                    contentID TEXT
+                    contentID TEXT,
+                    mimeType TEXT DEFAULT ''
                 )
             """)
             for i in range(50):
-                conn.execute(f"INSERT INTO Files VALUES ({i+1}, 'file{i:03d}.txt', NULL, 'f{i:04d}')")
+                conn.execute(f"INSERT INTO Files (id, name, parentID, contentID) VALUES ({i+1}, 'file{i:03d}.txt', NULL, 'f{i:04d}')")
         
         # Create source files
         for i in range(50):
