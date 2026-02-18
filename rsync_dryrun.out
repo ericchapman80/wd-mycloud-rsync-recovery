@@ -436,3 +436,170 @@ DB path patterns:
    - Files are stored with contentID names, not folder paths
 
 chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ 
+
+
+chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ sudo $(poetry env info --executable) scripts/debug_contentid.py --db /mnt/backupdrive/restsdk/data/db/index.db --source /mnt/backupdrive/restsdk/data/files/ --limit 20
+[sudo] password for chapman: 
+
+======================================================================
+  ContentID Debug - Checking 20 samples
+======================================================================
+
+File: auth0|5e62c7d40ec9700d5c82bb89
+  contentID: 'zaSKH84Ojf8ijhEvPTu-D1GpAwIjYXQ6v-txLxSo'
+  contentID[0]: 'z'
+  Expected path: /mnt/backupdrive/restsdk/data/files/z/zaSKH84Ojf8ijhEvPTu-D1GpAwIjYXQ6v-txLxSo
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/z/zaSKH84Ojf8ijhEvPTu-D1GpAwIjYXQ6v-txLxSo
+
+File: Eric-iPhone7-Plus Camera Roll Backup
+  contentID: 'y445lvr634hfn6wtfvi5xlm3'
+  contentID[0]: 'y'
+  Expected path: /mnt/backupdrive/restsdk/data/files/y/y445lvr634hfn6wtfvi5xlm3
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/y/y445lvr634hfn6wtfvi5xlm3
+
+File: IMG_7524.HEIC
+  contentID: 'simpcvssayesejvqg226mzwu'
+  contentID[0]: 's'
+  Expected path: /mnt/backupdrive/restsdk/data/files/s/simpcvssayesejvqg226mzwu
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/s/simpcvssayesejvqg226mzwu
+
+File: IMG_7523.PNG
+  contentID: 'd3lcv7jaepvfygweagmvbgkn'
+  contentID[0]: 'd'
+  Expected path: /mnt/backupdrive/restsdk/data/files/d/d3lcv7jaepvfygweagmvbgkn
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/d/d3lcv7jaepvfygweagmvbgkn
+
+File: IMG_7518.PNG
+  contentID: 'w2bf74rtt7oeybpdr2676mr6'
+  contentID[0]: 'w'
+  Expected path: /mnt/backupdrive/restsdk/data/files/w/w2bf74rtt7oeybpdr2676mr6
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/w/w2bf74rtt7oeybpdr2676mr6
+
+File: 60511087764__05F069DD-4373-4905-B8E4-E515D7F8EBCB.JPG
+  contentID: 'u3mstuwrem4sdnflofhzrbzf'
+  contentID[0]: 'u'
+  Expected path: /mnt/backupdrive/restsdk/data/files/u/u3mstuwrem4sdnflofhzrbzf
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/u/u3mstuwrem4sdnflofhzrbzf
+
+File: IMG_7522.HEIC
+  contentID: 'a65nt5j7rnb3ybuzcio3ukve'
+  contentID[0]: 'a'
+  Expected path: /mnt/backupdrive/restsdk/data/files/a/a65nt5j7rnb3ybuzcio3ukve
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/a/a65nt5j7rnb3ybuzcio3ukve
+
+File: 60498182809__645B5447-0872-4A4E-8123-3680F1147DA2.JPG
+  contentID: '23uqt57ahk2xllymecuuwx7e'
+  contentID[0]: '2'
+  Expected path: /mnt/backupdrive/restsdk/data/files/2/23uqt57ahk2xllymecuuwx7e
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/2/23uqt57ahk2xllymecuuwx7e
+
+File: IMG_7514.HEIC
+  contentID: 'hhbcs7dmu3vmowly6tvpzret'
+  contentID[0]: 'h'
+  Expected path: /mnt/backupdrive/restsdk/data/files/h/hhbcs7dmu3vmowly6tvpzret
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/h/hhbcs7dmu3vmowly6tvpzret
+
+File: IMG_7519.HEIC
+  contentID: 'co7hwaa4wlmldd4mqvixfrqa'
+  contentID[0]: 'c'
+  Expected path: /mnt/backupdrive/restsdk/data/files/c/co7hwaa4wlmldd4mqvixfrqa
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/c/co7hwaa4wlmldd4mqvixfrqa
+
+File: IMG_7520.HEIC
+  contentID: 'czxwkvdedxjqpyux7xpxwnpm'
+  contentID[0]: 'c'
+  Expected path: /mnt/backupdrive/restsdk/data/files/c/czxwkvdedxjqpyux7xpxwnpm
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/c/czxwkvdedxjqpyux7xpxwnpm
+
+File: IMG_7515.HEIC
+  contentID: 'fq2np3fs47633d7gh7pcqjwl'
+  contentID[0]: 'f'
+  Expected path: /mnt/backupdrive/restsdk/data/files/f/fq2np3fs47633d7gh7pcqjwl
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/f/fq2np3fs47633d7gh7pcqjwl
+
+File: IMG_7512.HEIC
+  contentID: 'pocxyfq4rooedq552k6tl3ff'
+  contentID[0]: 'p'
+  Expected path: /mnt/backupdrive/restsdk/data/files/p/pocxyfq4rooedq552k6tl3ff
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/p/pocxyfq4rooedq552k6tl3ff
+
+File: IMG_7513.HEIC
+  contentID: '4h4ypxmikn6gp57r2rrtuacy'
+  contentID[0]: '4'
+  Expected path: /mnt/backupdrive/restsdk/data/files/4/4h4ypxmikn6gp57r2rrtuacy
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/4/4h4ypxmikn6gp57r2rrtuacy
+
+File: IMG_7511.HEIC
+  contentID: 'et3sycrbtoiryu7wqac2bnc4'
+  contentID[0]: 'e'
+  Expected path: /mnt/backupdrive/restsdk/data/files/e/et3sycrbtoiryu7wqac2bnc4
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/e/et3sycrbtoiryu7wqac2bnc4
+
+File: IMG_7510.HEIC
+  contentID: '4llydrbijkxxcmc63ojm4ilp'
+  contentID[0]: '4'
+  Expected path: /mnt/backupdrive/restsdk/data/files/4/4llydrbijkxxcmc63ojm4ilp
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/4/4llydrbijkxxcmc63ojm4ilp
+
+File: IMG_7509.HEIC
+  contentID: 'dc3iotiyce7hybhchzg4igcc'
+  contentID[0]: 'd'
+  Expected path: /mnt/backupdrive/restsdk/data/files/d/dc3iotiyce7hybhchzg4igcc
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/d/dc3iotiyce7hybhchzg4igcc
+
+File: IMG_7521.HEIC
+  contentID: 'ucfy76kfa5w3hlmviwwkcfyp'
+  contentID[0]: 'u'
+  Expected path: /mnt/backupdrive/restsdk/data/files/u/ucfy76kfa5w3hlmviwwkcfyp
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/u/ucfy76kfa5w3hlmviwwkcfyp
+
+File: IMG_7497.MOV
+  contentID: 'bf2wi7gpqr6klkqdu34zbnto'
+  contentID[0]: 'b'
+  Expected path: /mnt/backupdrive/restsdk/data/files/b/bf2wi7gpqr6klkqdu34zbnto
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/b/bf2wi7gpqr6klkqdu34zbnto
+
+File: IMG_7499.MOV
+  contentID: '7sdfcqaltc7tkqioaqsha3id'
+  contentID[0]: '7'
+  Expected path: /mnt/backupdrive/restsdk/data/files/7/7sdfcqaltc7tkqioaqsha3id
+  Status: ✅ FOUND
+  Found at: /mnt/backupdrive/restsdk/data/files/7/7sdfcqaltc7tkqioaqsha3id
+
+======================================================================
+  Summary: 20 found, 0 not found
+======================================================================
+
+Sample files in source directory:
+----------------------------------------------------------------------
+  l/lmwgejlyxftrfahgqld4iy5z
+  l/l7n3bhrnowlamtmofnjogq7q
+  l/lhe7s3on3f4xcfzznhellzvh
+  l/lok3wzt7udyqmlry6rpkxfnv
+  l/lwpjmarf3ohd4gxrpj76oqg6
+  z/zueky2bwbz3nivgip4nzblji
+  z/zoxbg3kttp7epyr7wpmtcyr6
+  z/z3dnug67bdknnycelybrn4kc
+  z/zaojbhjvpvgaqdk5dourwag5
+  z/z4dz4e5kqnmtrw6saoakose2
+chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ 
+
