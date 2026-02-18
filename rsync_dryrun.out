@@ -617,3 +617,63 @@ Results:
   ❌ Not found:         0 (0.0%)
   ⚠️  Empty contentID:  0
 chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ 
+
+chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ sudo $(poetry env info --executable) rsync_restore.py --db /mnt/backupdrive/restsdk/data/db/index.db --source /mnt/backupdrive/restsdk/data/files/ --dest /mnt/nfs-media/ --farm /tmp/restore-farm --force-rebuild --limit 100 --dry-run
+
+============================================================
+  Pre-flight Checks
+============================================================
+
+✅ Source directory exists: /mnt/backupdrive/restsdk/data/files/
+ℹ️    Files: 3,583,981 | Size: 1.76 TB
+✅ Destination directory exists: /mnt/nfs-media/
+ℹ️    Files: 1,638,692 | Size: 1.92 TB
+ℹ️    Free space: 2.90 TB
+✅ Database found: /mnt/backupdrive/restsdk/data/db/index.db
+ℹ️    Total files in DB: 1,655,973
+ℹ️    Files to recover: 1,655,973
+✅ Symlink farm exists: /tmp/restore-farm
+ℹ️    Symlinks: 27
+✅ rsync found: /usr/bin/rsync
+ℹ️  Memory: 25.0% used (8.39 GB available)
+ℹ️  Load average: 1.25 1.25 1.26
+
+============================================================
+  Symlink Farm
+============================================================
+
+ℹ️  Force rebuild requested - purging existing farm...
+ℹ️  Creating symlink farm (streaming from database)...
+⚠️  ⚠️  Testing mode: Processing only 100 files (--limit=100)
+⚠️  
+⚠️  Reached --limit of 100 files. Stopping...
+✅ Created 100 symlinks
+
+============================================================
+  Starting rsync
+============================================================
+
+[2026-02-17 23:18:41] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 26.7% | Load: 1.21 1.24 1.26
+ℹ️  Running: rsync -avL --progress --checksum --dry-run /tmp/restore-farm/ /mnt/nfs-media/
+
+
+============================================================
+  Summary
+============================================================
+
+
+  Source:        3583981 files | 1.76 TB
+  Destination:   1638692 files | 1.92 TB
+
+  Started:       2026-02-17 22:15:48
+  Finished:      2026-02-18 00:00:59
+  Duration:      1h 3m 7s
+
+  Files transferred: 0
+  Data transferred:  354.13 MB
+  Average speed:     95.74 KB/s
+
+✅   Errors:            0
+
+ℹ️  Full log written to: rsync_restore.log
+chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ 
