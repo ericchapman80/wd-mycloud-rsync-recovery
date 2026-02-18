@@ -1002,7 +1002,8 @@ def run_rsync(
     checksum: bool = True,
     dry_run: bool = False,
     delete: bool = False,
-    exclude: List[str] = None
+    exclude: List[str] = None,
+    preserve_metadata: bool = False
 ) -> Tuple[int, List[str]]:
     """
     Run rsync with progress monitoring.
@@ -1012,7 +1013,18 @@ def run_rsync(
     """
     # Build rsync command
     # Use --progress for real-time feedback (works on all rsync versions)
+    # -a = archive mode (preserves permissions, ownership, timestamps, etc.)
+    # -v = verbose
+    # -L = dereference symlinks (follow symlinks in the farm)
     cmd = ['rsync', '-avL', '--progress']
+    
+    if preserve_metadata:
+        # Extended metadata preservation flags:
+        # -X = preserve extended attributes (xattrs) - includes macOS metadata
+        # -A = preserve ACLs (access control lists)
+        # --fileflags = preserve file flags (macOS/BSD)
+        # Note: These require rsync 3.x and appropriate filesystem support
+        cmd.extend(['-X', '-A'])
     
     if checksum:
         cmd.append('--checksum')
@@ -1241,7 +1253,8 @@ def run_restore(
     sanitize_pipes: bool = False,
     skip_farm: bool = False,
     limit: int = 0,
-    force_rebuild: bool = False
+    force_rebuild: bool = False,
+    preserve_metadata: bool = False
 ) -> int:
     """
     Run the full restore process.
@@ -1309,7 +1322,8 @@ def run_restore(
             dest=dest,
             monitor=monitor,
             checksum=checksum,
-            dry_run=dry_run
+            dry_run=dry_run,
+            preserve_metadata=preserve_metadata
         )
         
         # Retry failed files if any
@@ -1322,7 +1336,8 @@ def run_restore(
                     dest=dest,
                     monitor=monitor,
                     checksum=checksum,
-                    dry_run=False
+                    dry_run=False,
+                    preserve_metadata=preserve_metadata
                 )
                 if not errors:
                     print_success("All retries successful")
@@ -1575,6 +1590,8 @@ Cleanup Examples:
                        help='Log file path (default: rsync_restore.log)')
     parser.add_argument('--sanitize-pipes', action='store_true',
                        help='Replace | with - in paths')
+    parser.add_argument('--preserve-metadata', action='store_true',
+                       help='Preserve extended attributes (-X) and ACLs (-A) during rsync')
     parser.add_argument('--skip-farm', action='store_true',
                        help='Skip symlink farm creation (use existing)')
     parser.add_argument('--force-rebuild', action='store_true',
@@ -1652,7 +1669,8 @@ Cleanup Examples:
         sanitize_pipes=args.sanitize_pipes,
         skip_farm=args.skip_farm,
         limit=args.limit,
-        force_rebuild=args.force_rebuild
+        force_rebuild=args.force_rebuild,
+        preserve_metadata=args.preserve_metadata
     )
 
 
