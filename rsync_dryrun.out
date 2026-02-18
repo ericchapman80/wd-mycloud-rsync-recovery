@@ -326,3 +326,113 @@ nohup: ignoring input
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 OSError: [Errno 9] Bad file descriptor
 
+
+
+chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ sudo $(poetry env info --executable) scripts/diagnose_paths.py --db /mnt/backupdrive/restsdk/data/db/index.db --source /mnt/backupdrive/restsdk/data/files/ --samples 200
+
+============================================================
+  Path Reconstruction Diagnosis
+============================================================
+
+Checking database...
+  Files in database: 1,655,973
+
+Sampling 200 canonical paths from database...
+ℹ️  Loading canonical paths from database...
+✅ Loaded 1,655,972 canonical paths
+  Got 200 sample paths
+
+Sample canonical paths from DB:
+------------------------------------------------------------
+  OSxData/iPhotos/iPhotoLibrary/Database/Faces/Detected/aWFnzuthR3WV43gNoTbJ+Q.apdetected
+  OSxData/iPhotos/iPhotoLibrary2/Thumbnails/2014/05/22/20140522-121350/OJkGf2H%ShSU7kX81W%beA
+  OSxData/iPhotos/Photos Library.photoslibrary/resources/media/face/45/00/facetile_4575.jpeg
+  OSxData/iPhotos/Photos Library.photoslibrary/resources/proxies/derivatives/34/00/34b0
+  OSxData/iPhotos/iPhotoLibrary/Database/Versions/2016/07/25/20160725-144452/1wpF1MzISjKAxzCa2rCBqA/Version-0.apversion
+  OSxData/iPhotos/iPhotoLibrary2/Masters/2016/11/13/20161113-023725/IMG_4591.JPG
+  OSxData/iPhotos/iPhotoLibrary2/Database/Versions/2014/08/04/20140804-013619
+  iOSBackup/24a6451efc4c87aef1732130d05bd84086533164/8f/._8f15e0d3986b7ca7c540ac95c6e37bfab62803ce
+  OSxData/iPhotos/iPhotoLibrary/Database/Faces/Detected/SdH+MUczRQiItug8ZexB8w.apdetected
+  OSxData/iPhotos/iPhotoLibrary/Database/Versions/2013/06/10/20130610-075224/v%UVvBVNSZiIjqwWkdSVbw/Master.apmaster
+
+Analyzing source directory structure...
+  Top-level directories: 32
+  Top-level files: 0
+
+Top-level directories in source:
+  📁 2/
+  📁 3/
+  📁 4/
+  📁 5/
+  📁 6/
+  📁 7/
+  📁 a/
+  📁 b/
+  📁 c/
+  📁 d/
+  📁 e/
+  📁 f/
+  📁 g/
+  📁 h/
+  📁 i/
+  ... and 17 more
+
+Sample actual file paths in source:
+------------------------------------------------------------
+  l/lmwgejlyxftrfahgqld4iy5z
+  l/l7n3bhrnowlamtmofnjogq7q
+  l/lhe7s3on3f4xcfzznhellzvh
+  l/lok3wzt7udyqmlry6rpkxfnv
+  l/lwpjmarf3ohd4gxrpj76oqg6
+  l/lnhid3ald2c3saa7qq7agbxs
+  l/l5gii5upl6rrbmhmihcgarop
+  l/luepjv3dh47f7qxsb3ta74h3
+  l/lmb3cr74rmsqsb4756or4hg5
+  l/ll4p274j562amzaiiergt6tx
+
+Checking if canonical paths exist in source...
+
+  ✅ Found: 0/200 (0.0%)
+  ❌ Not found: 200/200 (100.0%)
+  ⚠️  Partial match: 0/200 (0.0%)
+
+Paths not found at all:
+------------------------------------------------------------
+  OSxData/iPhotos/iPhotoLibrary/Database/Faces/Detected/aWFnzuthR3WV43gNoTbJ+Q.apdetected
+  OSxData/iPhotos/iPhotoLibrary2/Thumbnails/2014/05/22/20140522-121350/OJkGf2H%ShSU7kX81W%beA
+  OSxData/iPhotos/Photos Library.photoslibrary/resources/media/face/45/00/facetile_4575.jpeg
+  OSxData/iPhotos/Photos Library.photoslibrary/resources/proxies/derivatives/34/00/34b0
+  OSxData/iPhotos/iPhotoLibrary/Database/Versions/2016/07/25/20160725-144452/1wpF1MzISjKAxzCa2rCBqA/Version-0.apversion
+
+============================================================
+  Analysis
+============================================================
+
+DB path prefixes (first folder):
+  OSxData: 82
+  iPhone-Ash Camera Roll Backup: 9
+  iOSBackup: 5
+  Eric-iPhone11-ProMax Camera Roll Backup: 2
+  Eric-iPhone7-Plus Camera Roll Backup: 1
+  OSxBackup: 1
+
+Source path prefixes (first folder):
+  l: 20
+
+DB path patterns:
+  folder_style: 100
+
+============================================================
+  Recommendations
+============================================================
+
+⚠️  CRITICAL: No canonical paths found in source!
+   This suggests a fundamental path reconstruction mismatch.
+   The DB paths don't match the actual source file structure.
+
+   Possible causes:
+   - Source directory is wrong
+   - Path reconstruction algorithm needs adjustment
+   - Files are stored with contentID names, not folder paths
+
+chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ 
