@@ -677,3 +677,111 @@ chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ sudo $(poetry env inf
 
 ℹ️  Full log written to: rsync_restore.log
 chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ 
+
+chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ cat restore_full.log
+nohup: ignoring input
+sudo: a terminal is required to read the password; either use the -S option to read from standard input or configure an askpass helper
+sudo: a password is required
+ exists: /mnt/backupdrive/restsdk/data/files/
+ℹ️    Files: 3,583,981 | Size: 1.76 TB
+✅ Destination directory exists: /mnt/nfs-media/
+ℹ️    Files: 1,638,692 | Size: 1.92 TB
+ℹ️    Free space: 2.90 TB
+✅ Database found: /mnt/backupdrive/restsdk/data/db/index.db
+ℹ️    Total files in DB: 1,655,973
+ℹ️    Files to recover: 1,655,973
+✅ Symlink farm exists: /tmp/restore-farm
+ℹ️    Symlinks: 100
+✅ rsync found: /usr/bin/rsync
+ℹ️  Memory: 25.3% used (8.36 GB available)
+ℹ️  Load average: 1.19 1.27 1.26
+
+============================================================
+  Symlink Farm
+============================================================
+
+ℹ️  Force rebuild requested - purging existing farm...
+ℹ️  Creating symlink farm (streaming from database)...
+  Progress: 5% (65,577/1,311,539)
+  Progress: 10% (131,154/1,311,539)
+  Progress: 15% (196,731/1,311,539)
+  Progress: 20% (262,308/1,311,539)
+  Progress: 25% (327,885/1,311,539)
+  Progress: 30% (393,462/1,311,539)
+  Progress: 35% (459,039/1,311,539)
+  Progress: 40% (524,616/1,311,539)
+  Progress: 45% (590,193/1,311,539)
+  Progress: 50% (655,770/1,311,539)
+  Progress: 55% (721,347/1,311,539)
+  Progress: 60% (786,924/1,311,539)
+  Progress: 65% (852,501/1,311,539)
+  Progress: 70% (918,078/1,311,539)
+  Progress: 75% (983,655/1,311,539)
+  Progress: 80% (1,049,232/1,311,539)
+  Progress: 85% (1,114,809/1,311,539)
+  Progress: 90% (1,180,386/1,311,539)
+  Progress: 95% (1,245,963/1,311,539)
+  Progress: 100% (1,311,539/1,311,539)
+✅ Created 1,311,537 symlinks
+ℹ️  Source not found: 2 (already copied or missing - this is normal)
+
+============================================================
+  Starting rsync
+============================================================
+
+[2026-02-18 06:32:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 25.7% | Load: 1.61 1.45 1.34
+ℹ️  Running: rsync -avL --progress --checksum --dry-run /tmp/restore-farm/ /mnt/nfs-media/
+
+[2026-02-18 06:33:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.49 1.45 1.34
+[2026-02-18 06:34:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.2% | Load: 1.31 1.40 1.33
+[2026-02-18 06:35:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.57 1.43 1.35
+[2026-02-18 06:36:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.89 1.54 1.39
+[2026-02-18 06:37:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 2.41 1.76 1.48
+[2026-02-18 06:38:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 2.20 1.86 1.53
+[2026-02-18 06:39:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.71 1.78 1.52
+[2026-02-18 06:40:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.2% | Load: 1.55 1.71 1.52
+[2026-02-18 06:41:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.94 1.78 1.56
+[2026-02-18 06:42:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.6% | Load: 1.52 1.69 1.54
+[2026-02-18 06:43:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.2% | Load: 1.55 1.67 1.54
+[2026-02-18 06:44:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.7% | Load: 1.72 1.69 1.56
+[2026-02-18 06:45:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.57 1.66 1.55
+[2026-02-18 06:46:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.6% | Load: 1.64 1.66 1.56
+[2026-02-18 06:47:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.5% | Load: 1.84 1.68 1.57
+[2026-02-18 06:48:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.44 1.60 1.55
+[2026-02-18 06:49:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.47 1.57 1.54
+[2026-02-18 06:50:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.56 1.57 1.54
+[2026-02-18 06:51:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.25 1.48 1.51
+[2026-02-18 06:52:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 26.1% | Load: 1.42 1.50 1.52
+[2026-02-18 06:53:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.46 1.49 1.51
+[2026-02-18 06:54:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.45 1.49 1.51
+[2026-02-18 06:55:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.62 1.54 1.53
+[2026-02-18 06:56:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.87 1.60 1.55
+[2026-02-18 06:57:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.44 1.52 1.53
+[2026-02-18 06:58:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.49 1.53 1.53
+[2026-02-18 06:59:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.65 1.56 1.55
+[2026-02-18 07:00:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.45 1.53 1.54
+[2026-02-18 07:01:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.45 1.51 1.53
+[2026-02-18 07:02:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.58 1.53 1.54
+[2026-02-18 07:03:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.75 1.57 1.55
+[2026-02-18 07:04:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.49 1.53 1.54
+[2026-02-18 07:05:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.60 1.58 1.55
+[2026-02-18 07:06:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.2% | Load: 1.53 1.55 1.54
+[2026-02-18 07:07:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.45 1.51 1.53
+[2026-02-18 07:08:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.43 1.49 1.53
+[2026-02-18 07:09:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.49 1.49 1.53
+[2026-02-18 07:10:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.47 1.48 1.52
+[2026-02-18 07:11:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.44 1.48 1.52
+[2026-02-18 07:12:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.26 1.42 1.50
+[2026-02-18 07:13:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.8% | Load: 1.54 1.47 1.51
+[2026-02-18 07:14:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.51 1.47 1.51
+[2026-02-18 07:15:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.55 1.48 1.51
+[2026-02-18 07:16:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.35 1.44 1.49
+[2026-02-18 07:17:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.5% | Load: 1.34 1.42 1.48
+[2026-02-18 07:18:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.40 1.40 1.46
+[2026-02-18 07:19:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.6% | Load: 1.77 1.50 1.49
+[2026-02-18 07:20:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.4% | Load: 1.65 1.50 1.49
+[2026-02-18 07:21:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.6% | Load: 1.66 1.53 1.50
+[2026-02-18 07:22:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.9% | Load: 1.58 1.53 1.50
+[2026-02-18 07:23:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.84 1.60 1.53
+[2026-02-18 07:24:15] Files: 0 | Data: 0.00 B | 0.0% | Speed: 0.00 B/s | ETA:  | Mem: 24.3% | Load: 1.96 1.68 1.56
+chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ jobs -l
