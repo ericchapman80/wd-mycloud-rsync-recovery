@@ -603,3 +603,17 @@ Sample files in source directory:
   z/z4dz4e5kqnmtrw6saoakose2
 chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ 
 
+chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ sudo $(poetry env info --executable) scripts/debug_contentid.py --db /mnt/backupdrive/restsdk/data/db/index.db --source /mnt/backupdrive/restsdk/data/files/ --deep
+
+======================================================================
+  Deep ContentID Analysis - Checking ALL files
+======================================================================
+
+Total files with contentID: 1,655,973
+
+Results:
+  ✅ Found (files):     1,655,973 (100.0%)
+  📁 Found (dirs):      0 (0.0%)
+  ❌ Not found:         0 (0.0%)
+  ⚠️  Empty contentID:  0
+chapman@chapman-htpc:~/projects/wd-mycloud-rsync-recovery$ 
