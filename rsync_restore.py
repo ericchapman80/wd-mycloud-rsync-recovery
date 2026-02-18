@@ -1003,7 +1003,8 @@ def run_rsync(
     dry_run: bool = False,
     delete: bool = False,
     exclude: List[str] = None,
-    preserve_metadata: bool = False
+    preserve_metadata: bool = False,
+    preserve_ownership: bool = False
 ) -> Tuple[int, List[str]]:
     """
     Run rsync with progress monitoring.
@@ -1017,6 +1018,13 @@ def run_rsync(
     # -v = verbose
     # -L = dereference symlinks (follow symlinks in the farm)
     cmd = ['rsync', '-avL', '--progress']
+    
+    # By default, skip owner/group to avoid permission issues when restoring
+    # to a different NAS (e.g., WD MyCloud -> Synology). The source NAS UIDs/GIDs
+    # likely don't match the destination, which would cause access problems.
+    # Use --preserve-ownership to override this if restoring to the same system.
+    if not preserve_ownership:
+        cmd.extend(['--no-owner', '--no-group'])
     
     if preserve_metadata:
         # Extended metadata preservation flags:
@@ -1254,7 +1262,8 @@ def run_restore(
     skip_farm: bool = False,
     limit: int = 0,
     force_rebuild: bool = False,
-    preserve_metadata: bool = False
+    preserve_metadata: bool = False,
+    preserve_ownership: bool = False
 ) -> int:
     """
     Run the full restore process.
@@ -1323,7 +1332,8 @@ def run_restore(
             monitor=monitor,
             checksum=checksum,
             dry_run=dry_run,
-            preserve_metadata=preserve_metadata
+            preserve_metadata=preserve_metadata,
+            preserve_ownership=preserve_ownership
         )
         
         # Retry failed files if any
@@ -1337,7 +1347,8 @@ def run_restore(
                     monitor=monitor,
                     checksum=checksum,
                     dry_run=False,
-                    preserve_metadata=preserve_metadata
+                    preserve_metadata=preserve_metadata,
+                    preserve_ownership=preserve_ownership
                 )
                 if not errors:
                     print_success("All retries successful")
@@ -1592,6 +1603,8 @@ Cleanup Examples:
                        help='Replace | with - in paths')
     parser.add_argument('--preserve-metadata', action='store_true',
                        help='Preserve extended attributes (-X) and ACLs (-A) during rsync')
+    parser.add_argument('--preserve-ownership', action='store_true',
+                       help='Preserve file owner/group (disabled by default to avoid UID/GID mismatch when restoring to a different NAS)')
     parser.add_argument('--skip-farm', action='store_true',
                        help='Skip symlink farm creation (use existing)')
     parser.add_argument('--force-rebuild', action='store_true',
@@ -1670,7 +1683,8 @@ Cleanup Examples:
         skip_farm=args.skip_farm,
         limit=args.limit,
         force_rebuild=args.force_rebuild,
-        preserve_metadata=args.preserve_metadata
+        preserve_metadata=args.preserve_metadata,
+        preserve_ownership=args.preserve_ownership
     )
 
 
